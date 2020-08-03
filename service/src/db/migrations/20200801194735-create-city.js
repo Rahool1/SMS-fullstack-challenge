@@ -36,6 +36,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('NOW()')
       }
+    },
+    {
+        charset: 'utf8',
+        collate: 'utf8_general_ci'
     });
   },
   down: async (queryInterface, Sequelize) => {

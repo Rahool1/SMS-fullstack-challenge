@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+  sms-api:
+    image: node
+    container_name: sms-api
+    
+    env_file: .env
+    working_dir: /home/node/app
+    environment:
+      - MYSQL_USERNAME=$MYSQL_USERNAME
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+      - MYSQL_HOSTNAME=$MYSQL_HOSTNAME
+      - MYSQL_PORT=$MYSQL_PORT
+      - MYSQL_DB=$MYSQL_DB
+    ports:
+      - "3001:3001"
+    restart: always
+    build:
+      context: ./service
+    depends_on:
+      - db
+    volumes: 
+      - ./service:/home/node/app   
+    networks:
+      - backend
+    command: npm start
+      
+  db:
+    image: mysql:5.7
+    container_name: db
+    restart: always
+    env_file: .env
+    environment:
+      MYSQL_DATABASE: $MYSQL_DB
+      MYSQL_USER: $MYSQL_USERNAME
+      MYSQL_PASSWORD: $MYSQL_PASSWORD
+      MYSQL_ROOT_PASSWORD: $MYSQL_PASSWORD
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - mysqlData:/var/lib/mysql
+    networks:
+      - backend  
+  
+  web:
+    container_name: portal
+    build: 
+      context: ./web
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web/dist/:/usr/share/nginx/html/    
+
+networks:
+  backend:
+
+volumes:
+  mysqlData:

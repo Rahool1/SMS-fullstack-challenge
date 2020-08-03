@@ -1,9 +1,10 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const appController = require("../controllers/app.controller");
 
-router.use(bodyParser.json());
-
-router.get("/get", appController.get);
+const router = express.Router();
+router.get("/cities", appController.read);
+router.post("/cities", appController.create);
+router.put("/city/:id", appController.update);
+router.delete("/cities", appController.delete);
 
 module.exports = router;

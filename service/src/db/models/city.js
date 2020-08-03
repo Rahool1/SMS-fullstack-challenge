@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.STRING,
     status: DataTypes.STRING,
     color: DataTypes.STRING
-  }, {
+  },{
     sequelize,
     modelName: 'City',
   });
