@@ -20,7 +20,6 @@ module.exports = {
     }
   },
   async create(req, res) {
-    console.log(`create`);
     try {
       console.log(req.body);
       let data = await appHelper.addCities(req.body);
